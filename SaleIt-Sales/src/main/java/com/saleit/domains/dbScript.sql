@@ -7,7 +7,12 @@ CREATE TABLE rtl_shop (
     shop_type varchar(255),
     PRIMARY KEY (shop_id)
 );
-
+CREATE TABLE cart (
+    item_id varchar(255),
+    item_quantity varchar(255),
+    item_price varchar(255)
+    );
+drop table cart_1236
 CREATE TABLE rtl_item (
     item_id varchar(255),
     item_name varchar(255),
