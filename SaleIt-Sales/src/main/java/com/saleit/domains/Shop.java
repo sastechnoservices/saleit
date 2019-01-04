@@ -5,7 +5,7 @@ public class Shop {
 	String shopName;
 	String shopContactNumber;
 	Address shopAddress;
-	Name ownerName;
+	Name shopOwnerName;
 	public Shop() {
 		super();
 	}
@@ -15,7 +15,7 @@ public class Shop {
 		this.shopName = shopName;
 		this.shopContactNumber = shopContactNumber;
 		this.shopAddress = shopAddress;
-		this.ownerName = ownerName;
+		this.shopOwnerName = ownerName;
 	}
 	public String getShopID() {
 		return shopID;
@@ -42,10 +42,10 @@ public class Shop {
 		this.shopAddress = shopAddress;
 	}
 	public Name getOwnerName() {
-		return ownerName;
+		return shopOwnerName;
 	}
 	public void setOwnerName(Name ownerName) {
-		this.ownerName = ownerName;
+		this.shopOwnerName = ownerName;
 	}
 	
 }
