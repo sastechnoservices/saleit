@@ -2,13 +2,13 @@ package com.saleit.domains;
 
 public class User {
 
-	String userId;
-	Name userName;
-	String userContactNumber;
-	String userEmailaddress;
-	Address userAddress;
-	String password;
-	String UserType;
+	private String userId;
+	private Name userName;
+	private String userContactNumber;
+	private String userEmailaddress;
+	private Address userAddress;
+	private String password;
+	private String UserType;
 	public User() {
 		super();
 	}

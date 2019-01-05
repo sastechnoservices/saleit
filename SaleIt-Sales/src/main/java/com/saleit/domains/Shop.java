@@ -1,11 +1,11 @@
 package com.saleit.domains;
 
 public class Shop {
-	String shopID;
-	String shopName;
-	String shopContactNumber;
-	Address shopAddress;
-	Name shopOwnerName;
+	private String shopID;
+	private String shopName;
+	private String shopContactNumber;
+	private Address shopAddress;
+	private Name shopOwnerName;
 	public Shop() {
 		super();
 	}

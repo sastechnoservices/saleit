@@ -3,14 +3,14 @@ package com.saleit.domains;
 public class Address {
 
 	
-	String addressLine1;
-	String addressLine2;
-	String addressLine3;
-	String addressLine4;
-	String city;
-	String state;
-	String pin;
-	String landMark;
+	private String addressLine1;
+	private String addressLine2;
+	private String addressLine3;
+	private String addressLine4;
+	private String city;
+	private String state;
+	private String pin;
+	private String landMark;
 	public Address() {
 		super();
 	}

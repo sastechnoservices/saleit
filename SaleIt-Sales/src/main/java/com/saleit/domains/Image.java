@@ -2,8 +2,8 @@ package com.saleit.domains;
 
 public class Image {
 
-	String imageId;
-	String imageArray;
+	private String imageId;
+	private String imageArray;
 	public Image() {
 		super();
 	}

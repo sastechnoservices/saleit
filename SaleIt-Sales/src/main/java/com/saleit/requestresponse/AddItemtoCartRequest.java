@@ -2,10 +2,10 @@ package com.saleit.requestresponse;
 
 public class AddItemtoCartRequest {
 
-	String itemid;
-	String shopId;
-	String userId;
-	float quantity;
+	private String itemid;
+	private String shopId;
+	private String userId;
+	private float quantity;
 	public AddItemtoCartRequest() {
 		super();
 	}

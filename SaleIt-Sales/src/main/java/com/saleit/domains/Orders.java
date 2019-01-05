@@ -6,14 +6,14 @@ import java.util.HashMap;
 
 public class Orders {
 
-	HashMap<Integer, String> itemdetails;
-	String orderID;
-	BigDecimal totalAmount;
-	BigDecimal amountToBePaid;
-	String shopId;
-	String customerId;
-	String orderStatus;
-	Date orderDate;
+	private HashMap<Integer, String> itemdetails;
+	private String orderID;
+	private BigDecimal totalAmount;
+	private BigDecimal amountToBePaid;
+	private String shopId;
+	private String customerId;
+	private String orderStatus;
+	private Date orderDate;
 	public Orders() {
 		super();
 	}

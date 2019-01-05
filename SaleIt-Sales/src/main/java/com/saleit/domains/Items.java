@@ -2,17 +2,17 @@ package com.saleit.domains;
 
 public class Items {
 	
-String itemId;
-String shopId;
-String itemName;
-String itemDescription;
-String itemPrice;
-String availability;
-String itemImageId;
+	private String itemId;
+	private String shopId;
+	private String itemName;
+	private String itemDescription;
+	private float itemPrice;
+	private String availability;
+	private String itemImageId;
 public Items() {
 	super();
 }
-public Items(String itemId, String shopId, String itemName, String itemDescription, String itemPrice,
+public Items(String itemId, String shopId, String itemName, String itemDescription, float itemPrice,
 		String availability, String itemImageId) {
 	super();
 	this.itemId = itemId;
@@ -47,10 +47,10 @@ public String getItemDescription() {
 public void setItemDescription(String itemDescription) {
 	this.itemDescription = itemDescription;
 }
-public String getItemPrice() {
+public float getItemPrice() {
 	return itemPrice;
 }
-public void setItemPrice(String itemPrice) {
+public void setItemPrice(float itemPrice) {
 	this.itemPrice = itemPrice;
 }
 public String getAvailability() {
