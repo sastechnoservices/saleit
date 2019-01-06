@@ -55,9 +55,12 @@ public class ItemDao {
 		c = connectionClass.connectToDB();
 		String sql = "UPDATE "+ cartName+" SET item_quantity = ?, item_price=? WHERE item_id = ?;";
 		PreparedStatement pst = c.prepareStatement(sql) ;
-		pst.setString(1, Float.toString(cartItems.getItemQuantity()));
-		pst.setString(2, Float.toString(cartItems.getItemPrice()));
+		pst.setString(1, Double.toString(cartItems.getItemQuantity()));
+		pst.setString(2, Double.toString(cartItems.getItemPrice()));
 		pst.setString(3, cartItems.getItemId());
+		pst.executeUpdate();
+		pst.close();
+		c.close();
 	}
 
 	public void insertToCart(Items item,String cartName,String quantity) throws SQLException {
@@ -69,7 +72,8 @@ public class ItemDao {
 		PreparedStatement pst = c.prepareStatement(sql) ;
 		pst.setString(1, item.getItemId());
 		pst.setString(2, quantity);
-		pst.setString(3, Float.toString(item.getItemPrice()));
+		pst.setString(3, Double.toString(item.getItemPrice()));
+		
 		pst.executeUpdate();
 
 		pst.close();
@@ -86,7 +90,7 @@ public class ItemDao {
 		pst.setString(1, item.getItemId());
 		pst.setString(2, item.getItemName());
 		pst.setString(3, item.getItemDescription());
-		pst.setString(4, Float.toString(item.getItemPrice()));
+		pst.setString(4, Double.toString(item.getItemPrice()));
 		pst.setString(5, item.getAvailability());
 		pst.setString(6, item.getItemId());
 		pst.setString(7, item.getShopId());

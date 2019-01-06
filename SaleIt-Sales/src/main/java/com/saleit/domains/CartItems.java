@@ -2,8 +2,8 @@ package com.saleit.domains;
 
 public class CartItems {
 private String itemId;
-private float itemQuantity;
-private float itemPrice;
+private double itemQuantity;
+private double itemPrice;
 public CartItems() {
 	super();
 }
@@ -13,19 +13,19 @@ public String getItemId() {
 public void setItemId(String itemId) {
 	this.itemId = itemId;
 }
-public float getItemQuantity() {
+public double getItemQuantity() {
 	return itemQuantity;
 }
-public void setItemQuantity(float itemQuantity) {
+public void setItemQuantity(double itemQuantity) {
 	this.itemQuantity = itemQuantity;
 }
-public float getItemPrice() {
+public double getItemPrice() {
 	return itemPrice;
 }
-public void setItemPrice(float itemPrice) {
+public void setItemPrice(double itemPrice) {
 	this.itemPrice = itemPrice;
 }
-public CartItems(String itemId, float itemQuantity, float itemPrice) {
+public CartItems(String itemId, double itemQuantity, double itemPrice) {
 	super();
 	this.itemId = itemId;
 	this.itemQuantity = itemQuantity;

@@ -4,7 +4,7 @@ public class ChangeQuantityRequest {
 
 	private String itemId;
 	private String cartName;
-	private float quantity;
+	private double quantity;
 	public ChangeQuantityRequest() {
 		super();
 	}
@@ -26,10 +26,10 @@ public class ChangeQuantityRequest {
 	public void setCartName(String cartName) {
 		this.cartName = cartName;
 	}
-	public float getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(float quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 	

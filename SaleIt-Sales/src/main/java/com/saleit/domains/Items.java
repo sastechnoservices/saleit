@@ -6,7 +6,7 @@ public class Items {
 	private String shopId;
 	private String itemName;
 	private String itemDescription;
-	private float itemPrice;
+	private double itemPrice;
 	private String availability;
 	private String itemImageId;
 public Items() {
@@ -47,11 +47,11 @@ public String getItemDescription() {
 public void setItemDescription(String itemDescription) {
 	this.itemDescription = itemDescription;
 }
-public float getItemPrice() {
+public double getItemPrice() {
 	return itemPrice;
 }
-public void setItemPrice(float itemPrice) {
-	this.itemPrice = itemPrice;
+public void setItemPrice(double d) {
+	this.itemPrice = d;
 }
 public String getAvailability() {
 	return availability;

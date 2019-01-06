@@ -5,11 +5,11 @@ public class AddItemtoCartRequest {
 	private String itemid;
 	private String shopId;
 	private String userId;
-	private float quantity;
+	private double quantity;
 	public AddItemtoCartRequest() {
 		super();
 	}
-	public AddItemtoCartRequest(String itemid, String shopId, String userId, float quantity) {
+	public AddItemtoCartRequest(String itemid, String shopId, String userId, double quantity) {
 		super();
 		this.itemid = itemid;
 		this.shopId = shopId;
@@ -34,10 +34,10 @@ public class AddItemtoCartRequest {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public float getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(float quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 	}
