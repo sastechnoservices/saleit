@@ -203,6 +203,7 @@ public class AddItemtoCart {
 		ItemDao itemDao= new ItemDao();
 		Orders orders = new Orders();
 		List<Items> itemList =new ArrayList<Items>();
+		List<Items> cartDomainItemList =new ArrayList<Items>();
 		orders.setTotalAmount(submitOrderRequest.getTotalAmount());
 		orders.setAmountToBePaid(submitOrderRequest.getTotalAmount());
 		orders.setCustomerId(submitOrderRequest.getUserID());
