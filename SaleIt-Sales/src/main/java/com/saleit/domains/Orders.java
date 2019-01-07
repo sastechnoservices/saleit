@@ -1,15 +1,14 @@
 package com.saleit.domains;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 
 public class Orders {
 
-	private HashMap<Integer, String> itemdetails;
+	private HashMap<Double, Items> itemdetails;
 	private String orderID;
-	private BigDecimal totalAmount;
-	private BigDecimal amountToBePaid;
+	private Double totalAmount;
+	private Double amountToBePaid;
 	private String shopId;
 	private String customerId;
 	private String orderStatus;
@@ -17,8 +16,8 @@ public class Orders {
 	public Orders() {
 		super();
 	}
-	public Orders(HashMap<Integer, String> itemdetails, String orderID, BigDecimal totalAmount,
-			BigDecimal amountToBePaid, String shopId, String customerId, String orderStatus, Date orderDate) {
+	public Orders(HashMap<Double, Items> itemdetails, String orderID, Double totalAmount,
+			Double amountToBePaid, String shopId, String customerId, String orderStatus, Date orderDate) {
 		super();
 		this.itemdetails = itemdetails;
 		this.orderID = orderID;
@@ -29,10 +28,10 @@ public class Orders {
 		this.orderStatus = orderStatus;
 		this.orderDate = orderDate;
 	}
-	public HashMap<Integer, String> getItemdetails() {
+	public HashMap<Double, Items> getItemdetails() {
 		return itemdetails;
 	}
-	public void setItemdetails(HashMap<Integer, String> itemdetails) {
+	public void setItemdetails(HashMap<Double, Items> itemdetails) {
 		this.itemdetails = itemdetails;
 	}
 	public String getOrderID() {
@@ -41,16 +40,16 @@ public class Orders {
 	public void setOrderID(String orderID) {
 		this.orderID = orderID;
 	}
-	public BigDecimal getTotalAmount() {
+	public Double getTotalAmount() {
 		return totalAmount;
 	}
-	public void setTotalAmount(BigDecimal totalAmount) {
+	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	public BigDecimal getAmountToBePaid() {
+	public Double getAmountToBePaid() {
 		return amountToBePaid;
 	}
-	public void setAmountToBePaid(BigDecimal amountToBePaid) {
+	public void setAmountToBePaid(Double amountToBePaid) {
 		this.amountToBePaid = amountToBePaid;
 	}
 	public String getShopId() {

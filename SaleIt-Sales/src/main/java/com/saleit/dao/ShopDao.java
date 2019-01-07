@@ -15,7 +15,7 @@ public class ShopDao {
 		Statement stmt = null;
 		stmt = c.createStatement();
 		 String sql = "INSERT INTO rtl_shop (shop_id,shop_name,shop_address,contact_number,email_address,shop_type) "
-		            + "VALUES ('12346', 'Paul', '32', 'California', 'asdas','asdsa' );";
+		            + "VALUES ('12347', 'Paul', '32', 'California', 'asdas','asdsa' );";
 		         stmt.executeUpdate(sql);
 		         stmt.close();
 		       

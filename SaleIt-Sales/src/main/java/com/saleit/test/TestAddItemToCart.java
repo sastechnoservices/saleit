@@ -5,10 +5,13 @@ import java.sql.SQLException;
 import org.junit.Test;
 
 import com.saleit.dao.ItemDao;
+import com.saleit.dao.ShopDao;
 import com.saleit.domains.Items;
+import com.saleit.domains.Shop;
 import com.saleit.requestresponse.AddItemtoCartRequest;
 import com.saleit.requestresponse.CalculateTotalRequest;
 import com.saleit.requestresponse.ChangeQuantityRequest;
+import com.saleit.requestresponse.SubmitOrderRequest;
 import com.saleit.services.AddItemtoCart;
 
 public class TestAddItemToCart {
@@ -21,13 +24,16 @@ public class TestAddItemToCart {
 		items.setItemId("789");
 		items.setItemPrice(45.5);
 		items.setShopId("12346");*/
+		Shop shop = new Shop();
 		ItemDao itemDao = new ItemDao();
+		ShopDao shopDao = new ShopDao();
+		shopDao.insertDatatoShopTable(shop);
 		items.setAvailability("Y");
-		items.setItemDescription("Chowmin");
-		items.setItemName("Chowmin");
-		items.setItemId("123");
+		items.setItemDescription("Chilly");
+		items.setItemName("Chilly");
+		items.setItemId("354");
 		items.setItemPrice(65.5);
-		items.setShopId("12346");
+		items.setShopId("12347");
 		itemDao.insertDatatoItemTable(items);
 		System.out.println("Item Added To Table");
 	}
@@ -36,9 +42,9 @@ public class TestAddItemToCart {
 	public void testAddItemToCart(){
 		AddItemtoCartRequest addItemtoCartRequest = new AddItemtoCartRequest(); 
 		AddItemtoCart addItemtoCart = new AddItemtoCart();
-		addItemtoCartRequest.setItemid("789");
-		addItemtoCartRequest.setShopId("12346");
-		addItemtoCartRequest.setUserId("1236");
+		addItemtoCartRequest.setItemid("300001");
+		addItemtoCartRequest.setShopId("10001");
+		addItemtoCartRequest.setUserId("107");
 		addItemtoCartRequest.setQuantity(2.8);
 		System.out.println(addItemtoCart.addItemTocart(addItemtoCartRequest).getMessage());
 	}
@@ -46,14 +52,14 @@ public class TestAddItemToCart {
 	public void testMultipleTimesAddItemToCart(){
 		AddItemtoCartRequest addItemtoCartRequest = new AddItemtoCartRequest(); 
 		AddItemtoCart addItemtoCart = new AddItemtoCart();
-		addItemtoCartRequest.setItemid("789");
-		addItemtoCartRequest.setShopId("12346");
-		addItemtoCartRequest.setUserId("1236");
+		addItemtoCartRequest.setItemid("300001");
+		addItemtoCartRequest.setShopId("10001");
+		addItemtoCartRequest.setUserId("107");
 		addItemtoCartRequest.setQuantity(2);
 		System.out.println(addItemtoCart.addItemTocart(addItemtoCartRequest).getMessage());
-		addItemtoCartRequest.setItemid("789");
-		addItemtoCartRequest.setShopId("12346");
-		addItemtoCartRequest.setUserId("1236");
+		addItemtoCartRequest.setItemid("300001");
+		addItemtoCartRequest.setShopId("10001");
+		addItemtoCartRequest.setUserId("107");
 		addItemtoCartRequest.setQuantity(3);
 		System.out.println(addItemtoCart.addItemTocart(addItemtoCartRequest).getMessage());
 	}
@@ -61,14 +67,19 @@ public class TestAddItemToCart {
 	public void testMultipleAddItemToCart(){
 		AddItemtoCartRequest addItemtoCartRequest = new AddItemtoCartRequest(); 
 		AddItemtoCart addItemtoCart = new AddItemtoCart();
-		addItemtoCartRequest.setItemid("789");
-		addItemtoCartRequest.setShopId("12346");
-		addItemtoCartRequest.setUserId("1236");
+		addItemtoCartRequest.setItemid("300009");
+		addItemtoCartRequest.setShopId("10001");
+		addItemtoCartRequest.setUserId("107");
 		addItemtoCartRequest.setQuantity(2);
 		System.out.println(addItemtoCart.addItemTocart(addItemtoCartRequest).getMessage());
-		addItemtoCartRequest.setItemid("123");
-		addItemtoCartRequest.setShopId("12346");
-		addItemtoCartRequest.setUserId("1236");
+		addItemtoCartRequest.setItemid("300010");
+		//addItemtoCartRequest.setShopId("12347");
+		addItemtoCartRequest.setUserId("10001");
+		addItemtoCartRequest.setQuantity(3);
+		System.out.println(addItemtoCart.addItemTocart(addItemtoCartRequest).getMessage());
+		addItemtoCartRequest.setItemid("300008");
+		addItemtoCartRequest.setShopId("10001");
+		addItemtoCartRequest.setUserId("107");
 		addItemtoCartRequest.setQuantity(3);
 		System.out.println(addItemtoCart.addItemTocart(addItemtoCartRequest).getMessage());
 	}
@@ -86,9 +97,18 @@ public class TestAddItemToCart {
 	public void testCalculateTotal(){
 		//testMultipleTimesAddItemToCart();
 		CalculateTotalRequest calculateTotalRequest = new CalculateTotalRequest();
-		calculateTotalRequest.setCartName("cart_1236");
+		calculateTotalRequest.setCartName("cart_107");
 		AddItemtoCart addItemtoCart = new AddItemtoCart();
 		System.out.println(addItemtoCart.calculateTotal(calculateTotalRequest).getMessage());
 		System.out.println(addItemtoCart.calculateTotal(calculateTotalRequest).getTotalAmount());
+	}
+	@Test
+	public void testSubmitOrder(){
+		SubmitOrderRequest submitOrderRequest= new SubmitOrderRequest();
+		submitOrderRequest.setCartName("cart_107");
+		submitOrderRequest.setTotalAmount(260.0);
+		submitOrderRequest.setUserID("107");
+		AddItemtoCart addItemtoCart = new AddItemtoCart();
+		System.out.println(addItemtoCart.submitOrder(submitOrderRequest).getMessage());
 	}
 }

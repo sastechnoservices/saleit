@@ -27,6 +27,17 @@ public class ItemDao {
 		stmt.close();
 		c.close();
 	}
+	public void dropCart(String cartName) throws SQLException {
+		Connection c = null;
+		ConnectionClass connectionClass = new ConnectionClass();
+		c = connectionClass.connectToDB();
+		Statement stmt = null;
+		stmt = c.createStatement();
+		String sql = "Drop TABLE "+ cartName;
+		stmt.executeUpdate(sql);
+		stmt.close();
+		c.close();
+	}
 	public List<CartItems> fetchAllItemsFromCart(String cartName) throws SQLException{
 		List<CartItems> cartItemList = new ArrayList<CartItems>();
 		Connection c = null;

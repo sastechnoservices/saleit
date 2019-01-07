@@ -8,4 +8,7 @@ public interface SaleitErrorMessages {
 	String ERROR_ADDITEMTOCART_005="Item Quantity Was Not Updated";
 	String ERROR_ADDITEMTOCART_006="Item Was Not Added To The Cart";
 	String ERROR_ADDITEMTOCART_007="Total Can Not Be Calculated. Please Contact Service Team";
+	String ERROR_ADDITEMTOCART_008="You Have Already Added Item From Other Shops";
+	String ERROR_ADDITEMTOCART_009="Item Not Found";
+	String ERROR_ADDITEMTOCART_010="Your Order Could Not Be Placed";
 }

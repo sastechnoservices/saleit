@@ -1,7 +1,11 @@
 package com.saleit.services;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.saleit.constants.SaleItSuccessMessages;
@@ -9,8 +13,10 @@ import com.saleit.constants.SaleitErrorConstatns;
 import com.saleit.constants.SaleitErrorMessages;
 import com.saleit.constants.SaleitSuccessConstatnts;
 import com.saleit.dao.ItemDao;
+import com.saleit.dao.OrderDao;
 import com.saleit.domains.CartItems;
 import com.saleit.domains.Items;
+import com.saleit.domains.Orders;
 import com.saleit.exceptions.BusinessException;
 import com.saleit.requestresponse.AddItemtoCartRequest;
 import com.saleit.requestresponse.AddItemtoCartResponse;
@@ -18,10 +24,13 @@ import com.saleit.requestresponse.CalculateTotalRequest;
 import com.saleit.requestresponse.CalculateTotalResponse;
 import com.saleit.requestresponse.ChangeQuantityRequest;
 import com.saleit.requestresponse.ChangeQuantityResponse;
+import com.saleit.requestresponse.SubmitOrderRequest;
+import com.saleit.requestresponse.SubmitOrderResponse;
 import com.salit.validations.AddItemtoCartValidations;
 
 public class AddItemtoCart {
 	public AddItemtoCartResponse addItemTocart(AddItemtoCartRequest addItemtoCartRequest) {
+		CommonServices commonServices = new CommonServices();
 		if(addItemtoCartRequest.getQuantity()==0) {
 			addItemtoCartRequest.setQuantity(1);
 		}
@@ -33,22 +42,41 @@ public class AddItemtoCart {
 		cartName.append("cart_");
 		cartName.append(addItemtoCartRequest.getUserId());
 		addItemtoCartResponse.setCartName(cartName.toString());
+		Items requestItem = new Items();
 
 		try {
 			addItemtoCartValidations.validateAddItemToCartRequest(addItemtoCartRequest);
 			itemList= itemDao.fetchAllItems();
-			Items requestItem = new Items();
+			
 			for(Items items:itemList) {
 				if(items.getItemId().equals(addItemtoCartRequest.getItemid())) {
 					requestItem=items;
 					break;
 				}
 			}
+			
+		if(null!=requestItem.getItemId()) {
 			try {
-				requestItem.setItemPrice(requestItem.getItemPrice()*addItemtoCartRequest.getQuantity());
+				requestItem.setItemPrice(commonServices.roundUptwoDoubleValues(commonServices.roundUptwoDoubleValues(requestItem.getItemPrice())*commonServices.roundUptwoDoubleValues(addItemtoCartRequest.getQuantity())));
+				List<CartItems> cartItemList =new ArrayList<CartItems>();
+				String cartShopId= null;
+				cartItemList= itemDao.fetchAllItemsFromCart(cartName.toString());
+				for(Items item:itemList) {
+					if(null!=cartItemList && !cartItemList.isEmpty() && null!= cartItemList.get(0) && cartItemList.get(0).getItemId().equals(item.getItemId())) {
+						cartShopId=item.getShopId();
+						break;
+					}
+				}try {
+				addItemtoCartValidations.validateCartItems(cartShopId, requestItem.getShopId());
 				itemDao.insertToCart(requestItem, cartName.toString(), Double.toString(addItemtoCartRequest.getQuantity()));
 				addItemtoCartResponse.setMessageCode(SaleitSuccessConstatnts.SUCC_ADDITEMTOCART_001);
 				addItemtoCartResponse.setMessage(SaleItSuccessMessages.SUCC_ADDITEMTOCART_001);
+				}
+				catch (BusinessException e) {
+					addItemtoCartResponse.setMessageCode(e.getMessageCode());
+					addItemtoCartResponse.setMessage(e.getMessage());
+				}
+				
 			}
 			catch (SQLException e) {
 				try {
@@ -84,7 +112,12 @@ public class AddItemtoCart {
 			}
 
 		} 
-
+		else {
+			addItemtoCartResponse.setMessageCode(SaleitErrorConstatns.ERROR_ADDITEMTOCART_009);
+			addItemtoCartResponse.setMessage(SaleitErrorMessages.ERROR_ADDITEMTOCART_009);
+		}
+		}
+		
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			addItemtoCartResponse.setMessageCode(SaleitErrorConstatns.ERROR_ADDITEMTOCART_006);
@@ -163,4 +196,47 @@ public class AddItemtoCart {
 		}
 		return calculateTotalResponse;
 	}
+	
+	public SubmitOrderResponse submitOrder(SubmitOrderRequest submitOrderRequest) {
+		CommonServices commonServices = new CommonServices();
+		SubmitOrderResponse  orderResponse = new SubmitOrderResponse();
+		ItemDao itemDao= new ItemDao();
+		Orders orders = new Orders();
+		List<Items> itemList =new ArrayList<Items>();
+		orders.setTotalAmount(submitOrderRequest.getTotalAmount());
+		orders.setAmountToBePaid(submitOrderRequest.getTotalAmount());
+		orders.setCustomerId(submitOrderRequest.getUserID());
+		List<CartItems> cartItemList =new ArrayList<CartItems>();
+		HashMap<Double, Items> itemDetails= new HashMap<Double, Items>();
+		orders.setOrderDate(new Date());
+		try {
+			itemList= itemDao.fetchAllItems();
+			cartItemList= itemDao.fetchAllItemsFromCart(submitOrderRequest.getCartName());
+			for(Items item:itemList) {
+				if(null!=cartItemList && !cartItemList.isEmpty() && null!= cartItemList.get(0) && cartItemList.get(0).getItemId().equals(item.getItemId())) {
+					orders.setShopId(item.getShopId());
+					break;
+				}
+				
+				}
+		
+			for(CartItems cartItems:cartItemList) {
+				itemDetails.put(cartItems.getItemQuantity(), commonServices.fetchItemByItemId(cartItems.getItemId()));
+			}
+			orders.setItemdetails(itemDetails);
+			orders.setOrderID(commonServices.generateOrderNumber(submitOrderRequest.getUserID()));
+			OrderDao orderDao =new OrderDao();
+			orderDao.insertToOrder(orders);
+			itemDao.dropCart(submitOrderRequest.getCartName());
+			orderResponse.setMessageCode(SaleitSuccessConstatnts.SUCC_ADDITEMTOCART_004);
+			orderResponse.setMessage(SaleItSuccessMessages.SUCC_ADDITEMTOCART_004);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			orderResponse.setMessageCode(SaleitErrorConstatns.ERROR_ADDITEMTOCART_007);
+			orderResponse.setMessage(SaleitErrorMessages.ERROR_ADDITEMTOCART_007);
+		}
+		return orderResponse;
+	}
+	
 }
