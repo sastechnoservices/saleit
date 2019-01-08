@@ -197,46 +197,6 @@ public class AddItemtoCart {
 		return calculateTotalResponse;
 	}
 	
-	public SubmitOrderResponse submitOrder(SubmitOrderRequest submitOrderRequest) {
-		CommonServices commonServices = new CommonServices();
-		SubmitOrderResponse  orderResponse = new SubmitOrderResponse();
-		ItemDao itemDao= new ItemDao();
-		Orders orders = new Orders();
-		List<Items> itemList =new ArrayList<Items>();
-		orders.setTotalAmount(submitOrderRequest.getTotalAmount());
-		orders.setAmountToBePaid(submitOrderRequest.getTotalAmount());
-		orders.setCustomerId(submitOrderRequest.getUserID());
-		List<CartItems> cartItemList =new ArrayList<CartItems>();
-		HashMap<Double, Items> itemDetails= new HashMap<Double, Items>();
-		orders.setOrderDate(new Date());
-		try {
-			itemList= itemDao.fetchAllItems();
-			cartItemList= itemDao.fetchAllItemsFromCart(submitOrderRequest.getCartName());
-			for(Items item:itemList) {
-				if(null!=cartItemList && !cartItemList.isEmpty() && null!= cartItemList.get(0) && cartItemList.get(0).getItemId().equals(item.getItemId())) {
-					orders.setShopId(item.getShopId());
-					break;
-				}
-				
-				}
-		
-			for(CartItems cartItems:cartItemList) {
-				itemDetails.put(cartItems.getItemQuantity(), commonServices.fetchItemByItemId(cartItems.getItemId()));
-			}
-			orders.setItemdetails(itemDetails);
-			orders.setOrderID(commonServices.generateOrderNumber(submitOrderRequest.getUserID()));
-			OrderDao orderDao =new OrderDao();
-			orderDao.insertToOrder(orders);
-			itemDao.dropCart(submitOrderRequest.getCartName());
-			orderResponse.setMessageCode(SaleitSuccessConstatnts.SUCC_ADDITEMTOCART_004);
-			orderResponse.setMessage(SaleItSuccessMessages.SUCC_ADDITEMTOCART_004);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			orderResponse.setMessageCode(SaleitErrorConstatns.ERROR_ADDITEMTOCART_007);
-			orderResponse.setMessage(SaleitErrorMessages.ERROR_ADDITEMTOCART_007);
-		}
-		return orderResponse;
-	}
+	
 	
 }

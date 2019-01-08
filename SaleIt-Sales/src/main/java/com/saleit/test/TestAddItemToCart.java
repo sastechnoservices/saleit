@@ -88,9 +88,9 @@ public class TestAddItemToCart {
 		//testMultipleTimesAddItemToCart();
 		AddItemtoCart addItemtoCart = new AddItemtoCart();
 		ChangeQuantityRequest changeQuantityRequest = new ChangeQuantityRequest();
-		changeQuantityRequest.setCartName("cart_1236");
-		changeQuantityRequest.setItemId("789");
-		changeQuantityRequest.setQuantity(3.6);
+		changeQuantityRequest.setCartName("cart_107");
+		changeQuantityRequest.setItemId("300001");
+		changeQuantityRequest.setQuantity(2.0);
 		System.out.println(addItemtoCart.changeQuantityInCart(changeQuantityRequest).getMessage());
 	}
 	@Test
@@ -102,13 +102,5 @@ public class TestAddItemToCart {
 		System.out.println(addItemtoCart.calculateTotal(calculateTotalRequest).getMessage());
 		System.out.println(addItemtoCart.calculateTotal(calculateTotalRequest).getTotalAmount());
 	}
-	@Test
-	public void testSubmitOrder(){
-		SubmitOrderRequest submitOrderRequest= new SubmitOrderRequest();
-		submitOrderRequest.setCartName("cart_107");
-		submitOrderRequest.setTotalAmount(260.0);
-		submitOrderRequest.setUserID("107");
-		AddItemtoCart addItemtoCart = new AddItemtoCart();
-		System.out.println(addItemtoCart.submitOrder(submitOrderRequest).getMessage());
-	}
+	
 }

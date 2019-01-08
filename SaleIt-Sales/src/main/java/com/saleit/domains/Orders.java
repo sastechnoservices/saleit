@@ -2,10 +2,11 @@ package com.saleit.domains;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class Orders {
 
-	private HashMap<Double, Items> itemdetails;
+	private List<OrderItemDetails> itemdetails;
 	private String orderID;
 	private Double totalAmount;
 	private Double amountToBePaid;
@@ -16,7 +17,7 @@ public class Orders {
 	public Orders() {
 		super();
 	}
-	public Orders(HashMap<Double, Items> itemdetails, String orderID, Double totalAmount,
+	public Orders(List<OrderItemDetails> itemdetails, String orderID, Double totalAmount,
 			Double amountToBePaid, String shopId, String customerId, String orderStatus, Date orderDate) {
 		super();
 		this.itemdetails = itemdetails;
@@ -28,10 +29,10 @@ public class Orders {
 		this.orderStatus = orderStatus;
 		this.orderDate = orderDate;
 	}
-	public HashMap<Double, Items> getItemdetails() {
+	public List<OrderItemDetails> getItemdetails() {
 		return itemdetails;
 	}
-	public void setItemdetails(HashMap<Double, Items> itemdetails) {
+	public void setItemdetails(List<OrderItemDetails> itemdetails) {
 		this.itemdetails = itemdetails;
 	}
 	public String getOrderID() {

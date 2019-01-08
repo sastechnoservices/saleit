@@ -2,11 +2,19 @@ package com.saleit.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import com.saleit.constants.OrderStatus;
+import com.saleit.domains.Items;
+import com.saleit.domains.OrderItemDetails;
 import com.saleit.domains.Orders;
 import com.saleit.util.ConnectionClass;
 import com.thoughtworks.xstream.XStream;
@@ -33,5 +41,34 @@ public class OrderDao {
 
 		pst.close();
 		c.close();
+	}
+	
+	public List<Orders> fetchAllOrders() throws SQLException, ParseException {
+		List<Orders> allOrders = new ArrayList<Orders>();
+		XStream xstream = new XStream();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Connection c = null;
+		ConnectionClass connectionClass = new ConnectionClass();
+		c = connectionClass.connectToDB();
+		Statement stmt = null;
+		stmt = c.createStatement();
+		ResultSet rs = stmt.executeQuery( "SELECT * FROM rtl_order;" ); 
+		while ( rs.next() ) {
+			Orders orders = new Orders();
+			orders.setOrderID(rs.getString("order_id"));
+			orders.setCustomerId(rs.getString("customer_id"));
+			orders.setAmountToBePaid(Double.valueOf(rs.getString("order_amount_to_paid")));
+			orders.setItemdetails((List<OrderItemDetails>)xstream.fromXML(rs.getString("order_elements")));
+			orders.setOrderDate(dateFormat.parse(rs.getString("order_date")));
+			orders.setTotalAmount(Double.valueOf(rs.getString("order_total_amount")));
+			orders.setShopId(rs.getString("shop_id"));
+			orders.setOrderStatus(rs.getString("order_status"));
+			allOrders.add(orders);
+		}	         
+		rs.close();
+		stmt.close();
+
+		c.close();
+		return allOrders;
 	}
 }

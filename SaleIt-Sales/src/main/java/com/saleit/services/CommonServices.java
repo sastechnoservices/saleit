@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,19 +13,31 @@ import java.util.List;
 import java.util.Locale;
 
 import com.saleit.dao.ItemDao;
+import com.saleit.dao.OrderDao;
 import com.saleit.domains.Items;
+import com.saleit.domains.Orders;
 
 public class CommonServices {
 public String generateOrderNumber(String userId) {
+	OrderDao orderDao = new OrderDao();
 	StringBuffer orderNumber= new StringBuffer();
+	try {
+	List<Orders>allOrders= orderDao.fetchAllOrders();
+	int totalOrders=allOrders.size()+1;
 	DateFormat dateFormat = new SimpleDateFormat("ddMMYYHHmmss");
 	Date date = new Date();
 	Calendar calendar = Calendar.getInstance();
 	Date date1 = calendar.getTime();
 	String day =new SimpleDateFormat("EE", Locale.ENGLISH).format(date1.getTime());
 	orderNumber.append(day.toUpperCase());
-	orderNumber.append(dateFormat.format(date));
 	orderNumber.append(updateCharacterCountOfSamllerString(4,userId.substring(Math.max(0, userId.length() - 4))));
+	orderNumber.append(dateFormat.format(date));
+	orderNumber.append(updateCharacterCountOfSamllerString(3,Integer.toString(totalOrders)));
+	} 
+	catch (SQLException | ParseException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+     }
 	return orderNumber.toString();
 }
 
@@ -37,6 +50,8 @@ public String updateCharacterCountOfSamllerString(int count, String data) {
 	}
 	updatedData1.append(data);
 	updatedData= updatedData1.toString();
+	}else {
+		updatedData.substring(updatedData.length() - 4);
 	}
 	return updatedData;
 }

@@ -31,10 +31,14 @@ public class TestMain {
 		String dataXml = xstream.toXML(address);
 		System.out.println(dataXml);
 		*/
-		    BigDecimal bd = new BigDecimal(12.156);
-		    bd = bd.setScale(2, RoundingMode.HALF_UP);
-		    System.out.println(bd.doubleValue());
-		
+		AddItemtoCartRequest addItemtoCartRequest = new AddItemtoCartRequest();	
+		XStream xstream = new XStream();
+		addItemtoCartRequest.setItemid("300001");
+		addItemtoCartRequest.setShopId("10001");
+		addItemtoCartRequest.setUserId("107");
+		addItemtoCartRequest.setQuantity(2);
+		String dataXml = xstream.toXML(addItemtoCartRequest);
+		System.out.println(dataXml);
 	}
 
 }
