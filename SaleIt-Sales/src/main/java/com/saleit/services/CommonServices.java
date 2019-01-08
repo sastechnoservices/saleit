@@ -34,10 +34,13 @@ public String generateOrderNumber(String userId) {
 	orderNumber.append(dateFormat.format(date));
 	orderNumber.append(updateCharacterCountOfSamllerString(3,Integer.toString(totalOrders)));
 	} 
-	catch (SQLException | ParseException e) {
+	catch (SQLException e) {
 	// TODO Auto-generated catch block
 	e.printStackTrace();
      }
+	catch (ParseException e) {
+		e.printStackTrace();
+	}
 	return orderNumber.toString();
 }
 

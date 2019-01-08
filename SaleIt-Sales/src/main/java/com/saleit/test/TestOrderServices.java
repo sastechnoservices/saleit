@@ -35,7 +35,11 @@ public class TestOrderServices {
 				
 			}
 			}
-		} catch (SQLException | ParseException e) {
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

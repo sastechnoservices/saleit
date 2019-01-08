@@ -11,7 +11,6 @@ import com.saleit.domains.Shop;
 import com.saleit.requestresponse.AddItemtoCartRequest;
 import com.saleit.requestresponse.CalculateTotalRequest;
 import com.saleit.requestresponse.ChangeQuantityRequest;
-import com.saleit.requestresponse.SubmitOrderRequest;
 import com.saleit.services.AddItemtoCart;
 
 public class TestAddItemToCart {
