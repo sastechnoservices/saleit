@@ -10,4 +10,5 @@ public interface SaleItSuccessMessages {
 	
 	String SUCC_ORDERSERVICE_001="Order Placed Successfully";
 	String SUCC_ORDERSERVICE_002="Order Found";
+	String SUCC_ORDERSERVICE_003= "Status Updated Succefully";
 }

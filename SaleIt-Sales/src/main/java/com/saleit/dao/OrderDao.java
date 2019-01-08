@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.saleit.constants.OrderStatus;
+import com.saleit.constants.OrderStatusConstants;
+import com.saleit.domains.CartItems;
 import com.saleit.domains.Items;
 import com.saleit.domains.OrderItemDetails;
 import com.saleit.domains.Orders;
@@ -35,14 +36,26 @@ public class OrderDao {
 		pst.setString(4, orders.getAmountToBePaid().toString());
 		pst.setString(5, orders.getShopId());
 		pst.setString(6, orders.getCustomerId());
-		pst.setString(7, OrderStatus.SUBMITED);
+		pst.setString(7, OrderStatusConstants.SUBMITED);
 		pst.setString(8, dateFormat.format(orders.getOrderDate()));
 		pst.executeUpdate();
 
 		pst.close();
 		c.close();
 	}
-	
+	public void updateOrderStatu(String OrderId, String orderStatus) throws SQLException {
+		Connection c = null;
+		ConnectionClass connectionClass = new ConnectionClass();
+		c = connectionClass.connectToDB();
+		String sql = "UPDATE rtl_order SET order_status = ? WHERE order_id = ?;";
+		PreparedStatement pst = c.prepareStatement(sql) ;
+		pst.setString(1, orderStatus);
+		pst.setString(2, OrderId);
+		pst.executeUpdate();
+		pst.close();
+		c.close();
+	}
+
 	public List<Orders> fetchAllOrders() throws SQLException, ParseException {
 		List<Orders> allOrders = new ArrayList<Orders>();
 		XStream xstream = new XStream();

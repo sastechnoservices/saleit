@@ -18,4 +18,6 @@ public interface SaleitErrorMessages {
     String ERROR_ORDERSERVICE_001="No Order Found";
     String ERROR_ORDERSERVICE_002="Please Provide User Details Or Login";
     String ERROR_ORDERSERVICE_003="Your Order Could Not Be Placed";
+    String ERROR_ORDERSERVICE_004="Please Provide OrderId";
+    String ERROR_ORDERSERVICE_005="Order Was Not Updated";
 }
