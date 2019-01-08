@@ -6,7 +6,7 @@ public class FetchOrderRequest {
 private String userId;
 private String orderId;
 private String orderStatus;
-private Date date;
+private Date orderDate;
 public FetchOrderRequest() {
 	super();
 }
@@ -15,7 +15,7 @@ public FetchOrderRequest(String userId, String orderId, String orderStatus, Date
 	this.userId = userId;
 	this.orderId = orderId;
 	this.orderStatus = orderStatus;
-	this.date = date;
+	this.orderDate = date;
 }
 public String getUserId() {
 	return userId;
@@ -35,11 +35,11 @@ public String getOrderStatus() {
 public void setOrderStatus(String orderStatus) {
 	this.orderStatus = orderStatus;
 }
-public Date getDate() {
-	return date;
+public Date getOrderDate() {
+	return orderDate;
 }
 public void setDate(Date date) {
-	this.date = date;
+	this.orderDate = date;
 }
 
 }

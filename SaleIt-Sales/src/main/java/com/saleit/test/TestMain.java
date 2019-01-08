@@ -1,21 +1,10 @@
 package com.saleit.test;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.saleit.dao.ItemDao;
-import com.saleit.dao.ShopDao;
-import com.saleit.domains.Address;
-import com.saleit.domains.Items;
 import com.saleit.requestresponse.AddItemtoCartRequest;
-import com.saleit.services.AddItemtoCart;
-import com.saleit.services.CommonServices;
 import com.thoughtworks.xstream.XStream;
 
 public class TestMain {
@@ -38,7 +27,10 @@ public class TestMain {
 		addItemtoCartRequest.setUserId("107");
 		addItemtoCartRequest.setQuantity(2);
 		String dataXml = xstream.toXML(addItemtoCartRequest);
-		System.out.println(dataXml);
+		List<String> tempList = new ArrayList<String>();
+		tempList.add("asdas");
+		System.out.println(tempList.size()); 
+		
 	}
 
 }
