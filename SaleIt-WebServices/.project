@@ -3,6 +3,7 @@
 	<name>SaleIt-WebServices</name>
 	<comment></comment>
 	<projects>
+		<project>SaleIt-Sales</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
