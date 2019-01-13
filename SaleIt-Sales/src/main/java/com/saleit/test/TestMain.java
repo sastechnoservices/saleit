@@ -1,38 +1,56 @@
 package com.saleit.test;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.saleit.requestresponse.AddItemtoCartRequest;
-import com.thoughtworks.xstream.XStream;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class TestMain {
 
 	public static void main(String[] args) throws SQLException {
-	/*	Address address = new Address();
-		XStream xstream = new XStream();	
-		address.setAddressLine1("Nandan Vihar");
-		address.setAddressLine2("Near Subhadra Appartment");
-		address.setCity("Bhubaneswar");
-		address.setLandMark("Subhadra Appartment");
-		address.setPin("751024");
-		String dataXml = xstream.toXML(address);
-		System.out.println(dataXml);
-		*/
-		AddItemtoCartRequest addItemtoCartRequest = new AddItemtoCartRequest();	
-		XStream xstream = new XStream();
-		//xstream.alias( "AddItemtoCartRequest", AddItemtoCartRequest.class );
-		addItemtoCartRequest.setItemid("300001");
-		addItemtoCartRequest.setShopId("10001");
-		addItemtoCartRequest.setUserId("107");
-		addItemtoCartRequest.setQuantity(2);
-		String dataXml = xstream.toXML(addItemtoCartRequest);
-		List<String> tempList = new ArrayList<String>();
-		tempList.add("asdas");
-		System.out.println(dataXml);
+		try {
+			String pass = encrypt("Sudeep","1");
+			
+			System.out.println(pass);
+			pass = decrypt(pass,"1");
+			System.out.println(pass);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
-
+		public static String encrypt(String strClearText,String strKey) throws Exception{
+			String strData="";
+			
+			try {
+				SecretKeySpec skeyspec=new SecretKeySpec(strKey.getBytes(),"Blowfish");
+				Cipher cipher=Cipher.getInstance("Blowfish");
+				cipher.init(Cipher.ENCRYPT_MODE, skeyspec);
+				byte[] encrypted=cipher.doFinal(strClearText.getBytes());
+				strData=new String(encrypted);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception(e);
+			}
+			return strData;
+		}
+		public static String decrypt(String strEncrypted,String strKey) throws Exception{
+			String strData="";
+			
+			try {
+				SecretKeySpec skeyspec=new SecretKeySpec(strKey.getBytes(),"Blowfish");
+				Cipher cipher=Cipher.getInstance("Blowfish");
+				cipher.init(Cipher.DECRYPT_MODE, skeyspec);
+				byte[] decrypted=cipher.doFinal(strEncrypted.getBytes());
+				strData=new String(decrypted);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception(e);
+			}
+			return strData;
+		}
 }

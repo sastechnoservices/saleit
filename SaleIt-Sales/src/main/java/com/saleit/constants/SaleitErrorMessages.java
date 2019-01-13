@@ -22,4 +22,12 @@ public interface SaleitErrorMessages {
     String ERROR_ORDERSERVICE_003="Your Order Could Not Be Placed";
     String ERROR_ORDERSERVICE_004="Please Provide OrderId";
     String ERROR_ORDERSERVICE_005="Order Was Not Updated";
+    
+    
+    String ERROR_USERSERVICES_001="User ID Already Exists";
+    String ERROR_USERSERVICES_002="Mobile Number Already Exists";
+    String ERROR_USERSERVICES_003="Email Address Already Exists";
+    String ERROR_USERSERVICES_004="User Could Not Created. Please Contact Support Team";
+    String ERROR_USERSERVICES_005="Please Enter Mobile Number";
+    String ERROR_USERSERVICES_006="Please Enter Password";
 }
