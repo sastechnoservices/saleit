@@ -1,7 +1,6 @@
 package com.saleit.requestresponse;
 
 public class AddItemtoCartRequest {
-
 	private String itemid;
 	private String shopId;
 	private String userId;

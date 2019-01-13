@@ -22,6 +22,7 @@ public class TestMain {
 		*/
 		AddItemtoCartRequest addItemtoCartRequest = new AddItemtoCartRequest();	
 		XStream xstream = new XStream();
+		//xstream.alias( "AddItemtoCartRequest", AddItemtoCartRequest.class );
 		addItemtoCartRequest.setItemid("300001");
 		addItemtoCartRequest.setShopId("10001");
 		addItemtoCartRequest.setUserId("107");
@@ -29,7 +30,8 @@ public class TestMain {
 		String dataXml = xstream.toXML(addItemtoCartRequest);
 		List<String> tempList = new ArrayList<String>();
 		tempList.add("asdas");
-		System.out.println(tempList.size()); 
+		System.out.println(dataXml);
+		
 		
 	}
 
