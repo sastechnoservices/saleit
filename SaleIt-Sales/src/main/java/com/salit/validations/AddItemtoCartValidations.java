@@ -1,9 +1,17 @@
 package com.salit.validations;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.saleit.constants.SaleitErrorConstatns;
 import com.saleit.constants.SaleitErrorMessages;
+import com.saleit.dao.ItemDao;
+import com.saleit.domains.CartItems;
+import com.saleit.domains.Items;
 import com.saleit.exceptions.BusinessException;
 import com.saleit.requestresponse.AddItemtoCartRequest;
+import com.saleit.requestresponse.DeleteItemFromCartRequest;
 
 public class AddItemtoCartValidations {
 	public void validateAddItemToCartRequest(AddItemtoCartRequest addItemtoCartRequest) throws BusinessException {
@@ -29,5 +37,35 @@ public class AddItemtoCartValidations {
 			throw new BusinessException(SaleitErrorConstatns.ERROR_ADDITEMTOCART_006, SaleitErrorMessages.ERROR_ADDITEMTOCART_006);
 
 		}
+	}
+	public void validateDeleteCartItems(DeleteItemFromCartRequest deleteItemFromCartRequest) throws BusinessException, SQLException {
+		ItemDao itemDao= new ItemDao();
+		boolean available= false;
+		List<Items> itemList =new ArrayList<Items>();
+		itemList= itemDao.fetchAllItems();
+		List<CartItems> cartItemList =new ArrayList<CartItems>();
+		cartItemList= itemDao.fetchAllItemsFromCart(deleteItemFromCartRequest.getCartId());
+		for(Items items : itemList) {
+			if(deleteItemFromCartRequest.getItemId().equals(items.getItemId())) {
+				available= true;
+				break;
+			}
+			
+		}
+		if(!available) {
+			throw new BusinessException(SaleitErrorConstatns.ERROR_ADDITEMTOCART_009, SaleitErrorMessages.ERROR_ADDITEMTOCART_009);
+		}
+		available= false;
+		for(CartItems carItems : cartItemList) {
+			if(deleteItemFromCartRequest.getItemId().equals(carItems.getItemId())) {
+				available= true;
+				break;
+			}
+			
+		}
+		if(!available) {
+			throw new BusinessException(SaleitErrorConstatns.ERROR_ADDITEMTOCART_010, SaleitErrorMessages.ERROR_ADDITEMTOCART_010);
+		}
+		
 	}
 }

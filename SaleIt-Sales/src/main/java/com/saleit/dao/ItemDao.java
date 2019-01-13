@@ -60,6 +60,19 @@ public class ItemDao {
 		return cartItemList;
 
 	}
+	public void deleteItemFromCart(String cartName, String itemId) throws SQLException{
+		
+		Connection c = null;
+		ConnectionClass connectionClass = new ConnectionClass();
+		c = connectionClass.connectToDB();
+		String sql = "DELETE FROM"+ cartName +" Customers WHERE item_id='"+ itemId +"';";
+		PreparedStatement pst = c.prepareStatement(sql) ;
+		pst.executeUpdate();  
+		pst.close();
+		c.close();
+		
+
+	}
 	public void updateCart(String cartName, CartItems cartItems) throws SQLException {
 		Connection c = null;
 		ConnectionClass connectionClass = new ConnectionClass();

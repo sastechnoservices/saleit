@@ -24,6 +24,8 @@ import com.saleit.requestresponse.CalculateTotalRequest;
 import com.saleit.requestresponse.CalculateTotalResponse;
 import com.saleit.requestresponse.ChangeQuantityRequest;
 import com.saleit.requestresponse.ChangeQuantityResponse;
+import com.saleit.requestresponse.DeleteItemFromCartRequest;
+import com.saleit.requestresponse.DeleteItemFromCartResponse;
 import com.saleit.requestresponse.SubmitOrderRequest;
 import com.saleit.requestresponse.SubmitOrderResponse;
 import com.salit.validations.AddItemtoCartValidations;
@@ -47,77 +49,77 @@ public class AddItemtoCart {
 		try {
 			addItemtoCartValidations.validateAddItemToCartRequest(addItemtoCartRequest);
 			itemList= itemDao.fetchAllItems();
-			
+
 			for(Items items:itemList) {
 				if(items.getItemId().equals(addItemtoCartRequest.getItemid())) {
 					requestItem=items;
 					break;
 				}
 			}
-			
-		if(null!=requestItem.getItemId()) {
-			try {
-				requestItem.setItemPrice(commonServices.roundUptwoDoubleValues(commonServices.roundUptwoDoubleValues(requestItem.getItemPrice())*commonServices.roundUptwoDoubleValues(addItemtoCartRequest.getQuantity())));
-				List<CartItems> cartItemList =new ArrayList<CartItems>();
-				String cartShopId= null;
-				cartItemList= itemDao.fetchAllItemsFromCart(cartName.toString());
-				for(Items item:itemList) {
-					if(null!=cartItemList && !cartItemList.isEmpty() && null!= cartItemList.get(0) && cartItemList.get(0).getItemId().equals(item.getItemId())) {
-						cartShopId=item.getShopId();
-						break;
-					}
-				}try {
-				addItemtoCartValidations.validateCartItems(cartShopId, requestItem.getShopId());
-				itemDao.insertToCart(requestItem, cartName.toString(), Double.toString(addItemtoCartRequest.getQuantity()));
-				addItemtoCartResponse.setMessageCode(SaleitSuccessConstatnts.SUCC_ADDITEMTOCART_001);
-				addItemtoCartResponse.setMessage(SaleItSuccessMessages.SUCC_ADDITEMTOCART_001);
-				}
-				catch (BusinessException e) {
-					addItemtoCartResponse.setMessageCode(e.getMessageCode());
-					addItemtoCartResponse.setMessage(e.getMessage());
-				}
-				
-			}
-			catch (SQLException e) {
+
+			if(null!=requestItem.getItemId()) {
 				try {
-					itemDao.createCart(cartName.toString());
-					itemDao.insertToCart(requestItem, cartName.toString(), Double.toString(addItemtoCartRequest.getQuantity()));
-					addItemtoCartResponse.setMessageCode(SaleitSuccessConstatnts.SUCC_ADDITEMTOCART_001);
-					addItemtoCartResponse.setMessage(SaleItSuccessMessages.SUCC_ADDITEMTOCART_001);
-				}
-				catch (SQLException ex) {
-					ChangeQuantityRequest changeQuantityRequest = new ChangeQuantityRequest();
-					changeQuantityRequest.setCartName(cartName.toString());
-					changeQuantityRequest.setItemId(requestItem.getItemId());
+					requestItem.setItemPrice(commonServices.roundUptwoDoubleValues(commonServices.roundUptwoDoubleValues(requestItem.getItemPrice())*commonServices.roundUptwoDoubleValues(addItemtoCartRequest.getQuantity())));
 					List<CartItems> cartItemList =new ArrayList<CartItems>();
-					CartItems cartItems = new CartItems();
-					cartItemList= itemDao.fetchAllItemsFromCart(changeQuantityRequest.getCartName());
-					boolean itemAvailableinCart= false;
-					for(CartItems cartItem:cartItemList) {
-						if(cartItem.getItemId().equals(changeQuantityRequest.getItemId())) {
-							cartItems = cartItem;
-							itemAvailableinCart= true;
+					String cartShopId= null;
+					cartItemList= itemDao.fetchAllItemsFromCart(cartName.toString());
+					for(Items item:itemList) {
+						if(null!=cartItemList && !cartItemList.isEmpty() && null!= cartItemList.get(0) && cartItemList.get(0).getItemId().equals(item.getItemId())) {
+							cartShopId=item.getShopId();
 							break;
 						}
+					}try {
+						addItemtoCartValidations.validateCartItems(cartShopId, requestItem.getShopId());
+						itemDao.insertToCart(requestItem, cartName.toString(), Double.toString(addItemtoCartRequest.getQuantity()));
+						addItemtoCartResponse.setMessageCode(SaleitSuccessConstatnts.SUCC_ADDITEMTOCART_001);
+						addItemtoCartResponse.setMessage(SaleItSuccessMessages.SUCC_ADDITEMTOCART_001);
 					}
-					if(itemAvailableinCart) {
-						changeQuantityRequest.setQuantity(cartItems.getItemQuantity()+addItemtoCartRequest.getQuantity());
+					catch (BusinessException e) {
+						addItemtoCartResponse.setMessageCode(e.getMessageCode());
+						addItemtoCartResponse.setMessage(e.getMessage());
 					}
-					ChangeQuantityResponse changeQuantityResponse= changeQuantityInCart(changeQuantityRequest);
-					addItemtoCartResponse.setMessageCode(changeQuantityResponse.getMessageCode());
-					addItemtoCartResponse.setMessage(changeQuantityResponse.getMessage());
+
+				}
+				catch (SQLException e) {
+					try {
+						itemDao.createCart(cartName.toString());
+						itemDao.insertToCart(requestItem, cartName.toString(), Double.toString(addItemtoCartRequest.getQuantity()));
+						addItemtoCartResponse.setMessageCode(SaleitSuccessConstatnts.SUCC_ADDITEMTOCART_001);
+						addItemtoCartResponse.setMessage(SaleItSuccessMessages.SUCC_ADDITEMTOCART_001);
+					}
+					catch (SQLException ex) {
+						ChangeQuantityRequest changeQuantityRequest = new ChangeQuantityRequest();
+						changeQuantityRequest.setCartName(cartName.toString());
+						changeQuantityRequest.setItemId(requestItem.getItemId());
+						List<CartItems> cartItemList =new ArrayList<CartItems>();
+						CartItems cartItems = new CartItems();
+						cartItemList= itemDao.fetchAllItemsFromCart(changeQuantityRequest.getCartName());
+						boolean itemAvailableinCart= false;
+						for(CartItems cartItem:cartItemList) {
+							if(cartItem.getItemId().equals(changeQuantityRequest.getItemId())) {
+								cartItems = cartItem;
+								itemAvailableinCart= true;
+								break;
+							}
+						}
+						if(itemAvailableinCart) {
+							changeQuantityRequest.setQuantity(cartItems.getItemQuantity()+addItemtoCartRequest.getQuantity());
+						}
+						ChangeQuantityResponse changeQuantityResponse= changeQuantityInCart(changeQuantityRequest);
+						addItemtoCartResponse.setMessageCode(changeQuantityResponse.getMessageCode());
+						addItemtoCartResponse.setMessage(changeQuantityResponse.getMessage());
+					}
+
+
 				}
 
-
+			} 
+			else {
+				addItemtoCartResponse.setMessageCode(SaleitErrorConstatns.ERROR_ADDITEMTOCART_009);
+				addItemtoCartResponse.setMessage(SaleitErrorMessages.ERROR_ADDITEMTOCART_009);
 			}
+		}
 
-		} 
-		else {
-			addItemtoCartResponse.setMessageCode(SaleitErrorConstatns.ERROR_ADDITEMTOCART_009);
-			addItemtoCartResponse.setMessage(SaleitErrorMessages.ERROR_ADDITEMTOCART_009);
-		}
-		}
-		
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			addItemtoCartResponse.setMessageCode(SaleitErrorConstatns.ERROR_ADDITEMTOCART_006);
@@ -196,7 +198,44 @@ public class AddItemtoCart {
 		}
 		return calculateTotalResponse;
 	}
-	
-	
-	
+
+	public DeleteItemFromCartResponse deleteItemFromCart(DeleteItemFromCartRequest deleteItemFromCartRequest) {
+		DeleteItemFromCartResponse deleteItemFromCartResponse = new DeleteItemFromCartResponse();
+		AddItemtoCartValidations addItemtoCartValidations = new AddItemtoCartValidations();
+		try {
+			addItemtoCartValidations.validateDeleteCartItems(deleteItemFromCartRequest);
+
+			StringBuffer message = new StringBuffer();
+			ItemDao itemDao= new ItemDao();
+			List<Items> itemList =new ArrayList<Items>();
+
+			itemList= itemDao.fetchAllItems();
+			for(Items items:itemList) {
+				if(deleteItemFromCartRequest.getItemId().equals(items.getItemId())) {
+					deleteItemFromCartResponse.setItemName(items.getItemName());
+					break;
+				}
+			}
+			message.append(deleteItemFromCartResponse.getItemName());
+			message.append(" ");
+			message.append(SaleItSuccessMessages.SUCC_ADDITEMTOCART_004);
+			itemDao.deleteItemFromCart(deleteItemFromCartRequest.getCartId(), deleteItemFromCartRequest.getItemId());
+			deleteItemFromCartResponse.setMessageCode(SaleitSuccessConstatnts.SUCC_ADDITEMTOCART_004);
+			deleteItemFromCartResponse.setMessage(message.toString());
+
+		}
+		catch (BusinessException e1) {
+			deleteItemFromCartResponse.setMessageCode(e1.getMessageCode());
+			deleteItemFromCartResponse.setMessage(e1.getMessage());
+
+		}
+		catch (SQLException e) {
+			deleteItemFromCartResponse.setMessageCode(SaleitErrorConstatns.ERROR_ADDITEMTOCART_011);
+			deleteItemFromCartResponse.setMessage(SaleitErrorMessages.ERROR_ADDITEMTOCART_011);
+		}
+
+		return deleteItemFromCartResponse;
+	}
+
+
 }
